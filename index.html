@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Shopping Cart</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <section id="mainSec">
+        <div class="container">
+            <div class="cart">
+                <div class="col-md-12 col-lg-10 mx-auto">
+                    <div id="phoneDiv" class="cart-item">
+                        <div class="row">
+                            <div class="col-md-7 center-item">
+                                <img src="images/product-1.png" alt="">
+                                <h5>iPhone 11 128GB Black</h5>
+                            </div>
+
+                            <div class="col-md-5 center-item">
+                                <div class="input-group number-spinner">
+                                    <button onclick="productChange('phone', false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                                    <input id="phoneCount" type="text" class="form-control text-center" value="1">
+                                    <button onclick="productChange('phone', true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <h5> <span id="phonePrice">1250</span> </h5>
+                                <img onclick="removePro('phone')" src="images/remove.png" alt="" class="remove-item">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="caseDiv" class="cart-item ">
+                        <div class="row">
+                            <div class="col-md-7 center-item mx-auto">
+                                <img src="images/product-2.png" alt="">
+                                <h5>iPhone 11 Silicone Case - Black</h5>
+                            </div>
+                            <div class="col-md-5 center-item">
+                                <div class="input-group number-spinner">
+                                    <button onclick="productChange('case', false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                                    <input id="caseCount" type="text" class="form-control text-center" value="1">
+                                    <button onclick="productChange('case', true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
+
+                                </div>
+                                <h5> <span id="casePrice">50</span></h5>
+                                <img onclick="removePro('case')" src="images/remove.png" alt="" class="remove-item">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cart-item">
+                        <div class="row">
+
+                            <div class="col-md-8">
+                                <h5>Subtotal: </h5>
+                                <h5>Tax:</h5>
+                                <h5>Total:</h5>
+                            </div>
+
+                            <div class="col-md-4 status">
+                                <h5> $<span id="subTotal">0</span> </h5>
+                                <h5> $<span id="tax">0</span> </h5>
+                                <h5> $<span id="total">0</span> </h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 pt-4 pb-4">
+                        <button onclick="CheckOut()" type="button" class="btn btn-success check-out">Check Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="thanks">
+        <div>
+            <h1 style="padding: 20px;">thanks for purchasing.</h1>
+            <button style="width: 100px; height: 50px; margin-top: 100px" onclick="Thanks()" class="btn btn-success"> OK</button>
+        </div>
+
+    </section>
+    <script>
+        function productChange(product, isIncrease) {
+            const productCount = document.getElementById(product + 'Count');
+            const productCNum = parseInt(productCount.value);
+            const ProductPrice = document.getElementById(product + 'Price');
+            const ProductPriceNum = parseInt(ProductPrice.innerText);
+
+            if (isIncrease == true) {
+                productNewCount = productCNum + 1;
+            }
+            if (isIncrease == false && productCNum > 0) {
+                productNewCount = productCNum - 1;
+            }
+            productCount.value = productNewCount;
+            if (product == 'phone') {
+                ProductPrice.innerText = "$" + 1250 * productNewCount;
+            }
+            if (product == 'case') {
+                ProductPrice.innerText = "$" + 50 * productNewCount;
+            }
+            const phoneCount = getInputValue('phone');
+            const caseCount = getInputValue('case');
+            const subtotal = document.getElementById('subTotal');
+            subtotal.innerText = (1250 * phoneCount + 50 * caseCount);
+            const subtotalNum = parseInt(subtotal.innerText);
+            const TaX = document.getElementById('tax');
+            TaX.innerText = Math.round(subtotalNum * 0.1);
+            const TaXNum = parseInt(TaX.innerText);
+            const grandTotal = document.getElementById('total');
+            grandTotal.innerText = subtotalNum + TaXNum;
+        }
+
+        function getInputValue(product) {
+            // const subtotal = document.getElementById('subTotal');
+            const productInput = document.getElementById(product + 'Count');
+            const productInNum = parseInt(productInput.value);
+            return productInNum;
+        }
+
+        function removePro(pro) {
+            if (pro == 'phone') {
+                document.getElementById('phoneDiv').style.display = "none";
+            }
+            if (pro == 'case') {
+                document.getElementById('caseDiv').style.display = "none";
+            }
+        }
+
+        function CheckOut() {
+            document.getElementById('mainSec').style.display = "none";
+            document.getElementById('thanks').style.display = "block";
+        }
+
+        function Thanks() {
+            document.getElementById('mainSec').style.display = "block";
+            document.getElementById('thanks').style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
